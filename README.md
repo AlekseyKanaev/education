@@ -1,2 +1,3 @@
-# education
-Pet project for knowledge transfer
+# Education
+Самой первой задачей для тебя будет установить все необходимые инструменты и настроить окружение.
+

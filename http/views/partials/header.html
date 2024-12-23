@@ -1,0 +1,17 @@
+{{ define "header" }}
+<header class="d-flex justify-content-center py-3">
+  <nav>
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a href="/" id="nav-1" class="nav-link" aria-current="page">General statistics</a></li>
+      <li class="nav-item"><a href="/channel/all" id="nav-2" class="nav-link">List of Youtube channels</a></li>
+      <li class="nav-item"><a href="/commenter" id="nav-3" class="nav-link">Youtube commenter search</a></li>
+      <li class="nav-item"><a href="/comments/distinguished/page/1" id="nav-4" class="nav-link">Distinguished
+          comments</a></li>
+      <li class="nav-item"><a href="/about" id="nav-5" class="nav-link">About</a></li>
+    </ul>
+  </nav>
+</header>
+{{ if .BreadCrumbs }}
+{{ template "breadcrumbs" .BreadCrumbs }}
+{{ end }}
+{{ end }}
