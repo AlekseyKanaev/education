@@ -20,13 +20,11 @@ type Response struct {
 }
 
 type Handlers struct {
-
+	Renderer multitemplate.Renderer
 }
 
 func (h *Handlers) BikesHandler(w http.ResponseWriter, r *http.Request) {
-	renderer := createMyRender()
-
-	ren := renderer.Instance("bike", Response{Main: make(map[string]any)})
+	ren := h.Renderer.Instance("bike", Response{Main: make(map[string]any)})
 
 	// if !bodyAllowedForStatus(code) {
 	// 	r.WriteContentType(c.Writer)
@@ -37,17 +35,12 @@ func (h *Handlers) BikesHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	if err := ren.Render(w); err != nil {
-		// Pushing error to c.Errors
-		// _ = c.Error(err)
-		// c.Abort()
 		fmt.Println(err)
 	}
 }
 
 func (h *Handlers) AgendaHandler(w http.ResponseWriter, r *http.Request) {
-	renderer := createMyRender()
-
-	ren := renderer.Instance("agenda", Response{Main: make(map[string]any)})
+	ren := h.Renderer.Instance("agenda", Response{Main: make(map[string]any)})
 
 	// if !bodyAllowedForStatus(code) {
 	// 	r.WriteContentType(c.Writer)
@@ -58,17 +51,12 @@ func (h *Handlers) AgendaHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	if err := ren.Render(w); err != nil {
-		// Pushing error to c.Errors
-		// _ = c.Error(err)
-		// c.Abort()
-		fmt.Println(err)
+		fmt.Println(err) // todo
 	}
 }
 
 func (h *Handlers) IndexHandler(w http.ResponseWriter, r *http.Request) {
-	renderer := createMyRender()
-
-	ren := renderer.Instance("index", Response{Main: make(map[string]any)})
+	ren := h.Renderer.Instance("index", Response{Main: make(map[string]any)})
 
 	// if !bodyAllowedForStatus(code) {
 	// 	r.WriteContentType(c.Writer)
@@ -79,9 +67,6 @@ func (h *Handlers) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	if err := ren.Render(w); err != nil {
-		// Pushing error to c.Errors
-		// _ = c.Error(err)
-		// c.Abort()
 		fmt.Println(err)
 	}
 }
@@ -100,12 +85,11 @@ func createMyRender() multitemplate.Renderer {
 	renderer.AddFromFiles("bike", append(commonTemplates, "./http/views/main/bike.html")...)
 	renderer.AddFromFiles("agenda", append(commonTemplates, "./http/views/main/agenda.html")...)
 
-
 	return renderer
 }
 
 func main() {
-	h := &Handlers{}
+	h := &Handlers{Renderer: createMyRender()}
 
 	r := mux.NewRouter()
 	r.HandleFunc("/bikes/{id:[0-9]+}", h.BikesHandler)
